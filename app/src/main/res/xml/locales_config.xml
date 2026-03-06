@@ -13,5 +13,6 @@
     <locale android:name="sk"/>
     <locale android:name="tr"/>
     <locale android:name="uk" />
+    <locale android:name="vi" />
     <locale android:name="zh-rCN" />
 </locale-config>

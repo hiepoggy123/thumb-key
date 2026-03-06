@@ -6,6 +6,8 @@ import com.dessalines.thumbkey.textprocessors.TextProcessor
 
 class VietnameseTelexProcessor : TextProcessor {
 
+    private val undoStack = java.util.Stack<String>()
+
     override fun handleCommitText(ime: IMEService, input: CharSequence) {
         val ic = ime.currentInputConnection
         val inputChar = input[0]
@@ -18,20 +20,39 @@ class VietnameseTelexProcessor : TextProcessor {
             val oldWord = match.value
             val newWord = processTelex(oldWord + inputChar)
             if (newWord != oldWord + inputChar) {
+                undoStack.push(oldWord + inputChar)
                 ic.deleteSurroundingText(oldWord.length, 0)
                 ic.commitText(newWord, 1)
                 return
             }
         }
         
+        if (!inputChar.isLetter()) {
+            undoStack.clear()
+        }
         ic.commitText(input, 1)
     }
 
     override fun handleKeyEvent(ime: IMEService, ev: KeyEvent) {
+        if (ev.keyCode == KeyEvent.KEYCODE_DEL && ev.action == KeyEvent.ACTION_DOWN) {
+            if (undoStack.isNotEmpty()) {
+                val previousState = undoStack.pop()
+                val ic = ime.currentInputConnection
+                val extracted = ic.getTextBeforeCursor(20, 0)?.toString() ?: ""
+                val match = Regex("[a-zA-ZÀ-ỹ]+\$").find(extracted)
+                if (match != null) {
+                    ic.deleteSurroundingText(match.value.length, 0)
+                    ic.commitText(previousState, 1)
+                    return
+                }
+            }
+        }
         ime.currentInputConnection.sendKeyEvent(ev)
     }
 
-    override fun handleFinishInput(ime: IMEService) {}
+    override fun handleFinishInput(ime: IMEService) {
+        undoStack.clear()
+    }
 
     override fun handleCursorUpdate(
         ime: IMEService,
@@ -39,7 +60,9 @@ class VietnameseTelexProcessor : TextProcessor {
         oldSelEnd: Int,
         newSelStart: Int,
         newSelEnd: Int
-    ) {}
+    ) {
+        undoStack.clear()
+    }
 
     override fun updateCursorPosition(ime: IMEService) {}
 

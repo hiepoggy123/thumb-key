@@ -151,24 +151,6 @@ val KB_VN_THUMBKEY_SHIFTED =
                     center = KeyC("S", size = LARGE),
                     swipeType = FOUR_WAY_DIAGONAL,
                     bottomRight = KeyC("W"),
-                    topLeft =
-                        KeyC(
-                            display = KeyDisplay.TextDisplay("\""),
-                            action = ComposeLastKey("\""),
-                            color = MUTED,
-                        ),
-                    topRight =
-                        KeyC(
-                            display = KeyDisplay.TextDisplay("^"),
-                            action = ComposeLastKey("^"),
-                            color = MUTED,
-                        ),
-                    bottomLeft =
-                        KeyC(
-                            display = KeyDisplay.TextDisplay("~"),
-                            action = ComposeLastKey("~"),
-                            color = MUTED,
-                        ),
                 ),
                 KeyItemC(
                     center = KeyC("R", size = LARGE),
@@ -188,18 +170,6 @@ val KB_VN_THUMBKEY_SHIFTED =
                     right = KeyC("M"),
                     topRight = KeyC("M", displayText = ""),
                     bottomRight = KeyC("M", displayText = ""),
-                    topLeft =
-                        KeyC(
-                            display = KeyDisplay.TextDisplay("'"),
-                            action = ComposeLastKey("'"),
-                            color = MUTED,
-                        ),
-                    bottomLeft =
-                        KeyC(
-                            display = KeyDisplay.TextDisplay("`"),
-                            action = ComposeLastKey("`"),
-                            color = MUTED,
-                        ),
                 ),
                 KeyItemC(
                     center = KeyC("H", size = LARGE),
@@ -238,24 +208,6 @@ val KB_VN_THUMBKEY_SHIFTED =
                     center = KeyC("T", size = LARGE),
                     swipeType = FOUR_WAY_DIAGONAL,
                     topRight = KeyC("C"),
-                    topLeft =
-                        KeyC(
-                            display = KeyDisplay.TextDisplay("°/"),
-                            action = ComposeLastKey("°"),
-                            color = MUTED,
-                        ),
-                    bottomLeft =
-                        KeyC(
-                            display = KeyDisplay.TextDisplay("¿¡"),
-                            action = ComposeLastKey("!"),
-                            color = MUTED,
-                        ),
-                    bottomRight =
-                        KeyC(
-                            display = KeyDisplay.TextDisplay("\$"),
-                            action = ComposeLastKey("\$"),
-                            color = MUTED,
-                        ),
                 ),
                 KeyItemC(
                     center = KeyC("I", size = LARGE),
