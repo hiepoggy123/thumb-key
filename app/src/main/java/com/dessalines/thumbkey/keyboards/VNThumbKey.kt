@@ -45,9 +45,6 @@ val KB_VN_THUMBKEY_MAIN =
                 KeyItemC(
                     center = KeyC("o", size = LARGE),
                     bottomLeft = KeyC("u"),
-                    bottomRight = KeyC("ư"),	
-                    bottom = KeyC("ô"),
-                    left = KeyC("ơ"),	
                 ),
                 EMOJI_KEY_ITEM,
             ),
@@ -92,13 +89,11 @@ val KB_VN_THUMBKEY_MAIN =
                             swipeReturnAction = ToggleCurrentWordCapitalization(true),
                             color = MUTED,
                         ),
-                    topLeft = KeyC("â"),
                     bottom =
                         KeyC(
                             ToggleShiftMode(false),
                             swipeReturnAction = ToggleCurrentWordCapitalization(false),
                         ),
-                    bottomLeft = KeyC("ă"),
                 ),
                 NUMERIC_KEY_ITEM,
             ),
@@ -138,8 +133,6 @@ val KB_VN_THUMBKEY_MAIN =
                 KeyItemC(
                     center = KeyC("e", size = LARGE),
                     topLeft = KeyC("d"),
-                    left = KeyC("đ"),
-                    top = KeyC("ê"),	
                 ),
                 BACKSPACE_KEY_ITEM,
             ),
@@ -185,9 +178,6 @@ val KB_VN_THUMBKEY_SHIFTED =
                 KeyItemC(
                     center = KeyC("O", size = LARGE),
                     bottomLeft = KeyC("U"),
-                    bottomRight = KeyC("Ư"),	
-                    bottom = KeyC("Ô"),
-                    left = KeyC("Ơ"),	
                 ),
                 EMOJI_KEY_ITEM,
             ),
@@ -240,8 +230,6 @@ val KB_VN_THUMBKEY_SHIFTED =
                             swipeReturnAction = ToggleCurrentWordCapitalization(true),
                             color = MUTED,
                         ),
-                    topLeft = KeyC("Â"),
-                    bottomLeft = KeyC("Ă"),	
                 ),
                 NUMERIC_KEY_ITEM,
             ),
@@ -281,8 +269,6 @@ val KB_VN_THUMBKEY_SHIFTED =
                 KeyItemC(
                     center = KeyC("E", size = LARGE),
                     topLeft = KeyC("D"),
-                    left = KeyC("Đ"),
-                    top = KeyC("Ê"),
                 ),
                 BACKSPACE_KEY_ITEM,
             ),
@@ -306,5 +292,6 @@ val KB_VN_THUMBKEY: KeyboardDefinition =
         settings =
             KeyboardDefinitionSettings(
                 autoCapitalizers = arrayOf(::autoCapitalizeI, ::autoCapitalizeIApostrophe),
+                textProcessor = VietnameseTelexProcessor(),
             ),
     )
