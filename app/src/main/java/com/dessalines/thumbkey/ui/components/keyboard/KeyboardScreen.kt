@@ -415,6 +415,9 @@ fun KeyboardScreen(
                                             KeyboardMode.MAIN
                                         }
                                 },
+                                onToggleAbbreviationMode = { enable ->
+                                    ctx.isAbbreviationMode = enable
+                                },
                                 onToggleCapsLock = {
                                     capsLock = !capsLock
 
@@ -703,6 +706,9 @@ fun KeyboardScreen(
                                                 } else {
                                                     KeyboardMode.MAIN
                                                 }
+                                        },
+                                        onToggleAbbreviationMode = { enable ->
+                                            ctx.isAbbreviationMode = enable
                                         },
                                         onToggleCapsLock = {
                                             capsLock = !capsLock

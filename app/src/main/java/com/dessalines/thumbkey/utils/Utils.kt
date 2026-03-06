@@ -343,6 +343,7 @@ fun performKeyAction(
     onToggleNumericMode: (enable: Boolean) -> Unit,
     onToggleEmojiMode: (enable: Boolean) -> Unit,
     onToggleClipboardMode: (enable: Boolean) -> Unit,
+    onToggleAbbreviationMode: (enable: Boolean) -> Unit,
     onToggleCapsLock: () -> Unit,
     onToggleHideLetters: () -> Unit,
     onAutoCapitalize: (enable: Boolean) -> Unit,
@@ -1191,6 +1192,12 @@ fun performKeyAction(
             onToggleClipboardMode(enable)
         }
 
+        is KeyAction.ToggleAbbreviationMode -> {
+            val enable = action.enable
+            Log.d(TAG, "Toggling Abbreviation: $enable")
+            onToggleAbbreviationMode(enable)
+        }
+
         KeyAction.GotoSettings -> {
             val mainActivityIntent = Intent(ime, MainActivity::class.java)
             mainActivityIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -1457,6 +1464,44 @@ fun performKeyAction(
                     ime.currentInputConnection.commitText(replacementText, 1)
                 }
             }
+        }
+    }
+
+    if (action is KeyAction.CommitText || action is KeyAction.IMECompleteAction) {
+        val text = if (action is KeyAction.CommitText) action.text else "\n"
+        if (text.length == 1 && (text[0].isWhitespace() || ".,;:!?\"'()".contains(text[0]))) {
+            handleAbbreviationReplacement(ime, onToggleAbbreviationMode)
+        }
+    }
+}
+
+fun handleAbbreviationReplacement(
+    ime: IMEService,
+    onToggleAbbreviationMode: (enable: Boolean) -> Unit
+) {
+    if (!ime.isAbbreviationMode) return
+
+    val ic = ime.currentInputConnection
+    val maxLength = 50
+    val textBefore = ic.getTextBeforeCursor(maxLength, 0)?.toString() ?: ""
+    
+    // Find the last word (ignoring the delimiter just typed which is already committed)
+    // Actually, at this point the delimiter is already committed.
+    // We want the word BEFORE the delimiter.
+    
+    val pattern = Regex("(\\w+)\\W$")
+    val match = pattern.find(textBefore)
+    if (match != null) {
+        val abbrev = match.groups[1]?.value ?: ""
+        val expansion = ime.getAbbreviation(abbrev)
+        if (expansion != null) {
+            // Delete the abbreviation and the delimiter
+            ic.deleteSurroundingText(match.value.length, 0)
+            // Commit the expansion and the delimiter
+            val delimiter = match.value.last()
+            ic.commitText(expansion + delimiter, 1)
+            // Disable abbreviation mode after success
+            onToggleAbbreviationMode(false)
         }
     }
 }

@@ -135,5 +135,5 @@
     <string name="clipboard_disabled">Zgodovina odložišča ni omogočena</string>
     <string name="clipboard_go_to_settings">Na nastavitve odložišča</string>
     <string name="position_padding">Odmik od roba: %1$s</string>
-    <string name="warning_invalid_mode">Način \"%s\" v razporeditvi \"%s\" ni določen.</string>
+    <string name="warning_invalid_mode">Način \"%1$s\" v razporeditvi \"%2$s\" ni določen.</string>
 </resources>

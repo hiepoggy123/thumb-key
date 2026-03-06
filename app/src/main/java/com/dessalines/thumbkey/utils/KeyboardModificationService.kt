@@ -30,6 +30,7 @@ import com.dessalines.thumbkey.keyboards.SPACEBAR_TOP_KEYC
 import com.dessalines.thumbkey.keyboards.SWITCH_IME_KEYC
 import com.dessalines.thumbkey.keyboards.SWITCH_IME_VOICE_KEYC
 import com.dessalines.thumbkey.keyboards.SWITCH_LANGUAGE_KEYC
+import com.dessalines.thumbkey.keyboards.TOGGLE_ABBREVIATION_MODE_TRUE_KEYC
 import com.dessalines.thumbkey.keyboards.TOGGLE_ALT_FALSE_KEYC
 import com.dessalines.thumbkey.keyboards.TOGGLE_ALT_TRUE_KEYC
 import com.dessalines.thumbkey.keyboards.TOGGLE_CAPS_KEYC

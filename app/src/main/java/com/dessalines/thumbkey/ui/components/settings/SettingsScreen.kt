@@ -178,6 +178,17 @@ fun SettingsScreen(
                         onClick = { navController.navigate("modifyKeys") },
                     )
                     Preference(
+                        title = { Text(stringResource(R.string.abbreviations)) },
+                        summary = { Text(stringResource(R.string.abbreviations_description)) },
+                        icon = {
+                            Icon(
+                                imageVector = Icons.Outlined.ContentPaste,
+                                contentDescription = null,
+                            )
+                        },
+                        onClick = { navController.navigate("abbreviationSettings") },
+                    )
+                    Preference(
                         title = { Text(stringResource(R.string.backup_and_restore)) },
                         icon = {
                             Icon(

@@ -32,6 +32,7 @@ import com.dessalines.thumbkey.ui.components.settings.behavior.BehaviorScreen
 import com.dessalines.thumbkey.ui.components.settings.clipboard.ClipboardSettingsScreen
 import com.dessalines.thumbkey.ui.components.settings.lookandfeel.LookAndFeelScreen
 import com.dessalines.thumbkey.ui.components.settings.modifykeys.ModifyKeysScreen
+import com.dessalines.thumbkey.ui.components.settings.AbbreviationSettingsScreen
 import com.dessalines.thumbkey.ui.components.setup.SetupScreen
 import com.dessalines.thumbkey.ui.theme.ThumbkeyTheme
 import com.dessalines.thumbkey.utils.ANIMATION_SPEED
@@ -160,6 +161,12 @@ class MainActivity : AppCompatActivity() {
                     }
                     composable(route = "modifyKeys") {
                         ModifyKeysScreen(
+                            navController = navController,
+                            appSettingsViewModel = appSettingsViewModel,
+                        )
+                    }
+                    composable(route = "abbreviationSettings") {
+                        AbbreviationSettingsScreen(
                             navController = navController,
                             appSettingsViewModel = appSettingsViewModel,
                         )

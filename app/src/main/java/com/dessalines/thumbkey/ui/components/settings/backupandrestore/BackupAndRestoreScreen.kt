@@ -77,6 +77,7 @@ import com.dessalines.thumbkey.db.DEFAULT_SPACEBAR_MULTITAPS
 import com.dessalines.thumbkey.db.DEFAULT_THEME
 import com.dessalines.thumbkey.db.DEFAULT_THEME_COLOR
 import com.dessalines.thumbkey.db.DEFAULT_USE_PRIVATE_CLIPBOARD
+import com.dessalines.thumbkey.db.DEFAULT_ABBREVIATIONS
 import com.dessalines.thumbkey.db.DEFAULT_VIBRATE_ON_SLIDE
 import com.dessalines.thumbkey.db.DEFAULT_VIBRATE_ON_TAP
 import com.dessalines.thumbkey.utils.SimpleTopAppBar
@@ -278,6 +279,7 @@ private fun resetAppSettingsToDefault(appSettingsViewModel: AppSettingsViewModel
             clipboardSizeLimitEnabled = DEFAULT_CLIPBOARD_SIZE_LIMIT_ENABLED,
             clipboardMaxSize = DEFAULT_CLIPBOARD_MAX_SIZE,
             usePrivateClipboard = DEFAULT_USE_PRIVATE_CLIPBOARD,
+            abbreviations = DEFAULT_ABBREVIATIONS,
         ),
     )
 }

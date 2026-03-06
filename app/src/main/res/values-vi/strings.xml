@@ -107,7 +107,7 @@
     <string name="ignore_bottom_padding">Bỏ qua khoảng đệm phía dưới</string>
     <string name="show_toast_on_layout_switch">Hiển thị thông báo khi chuyển đổi bố cục</string>
     <string name="disable_fullscreen_editor">Tắt trình soạn thảo toàn màn hình</string>
-    <string name="warning_invalid_mode">Chế độ \"%s\" chưa được định nghĩa cho bố cục \"%s\".</string>
+    <string name="warning_invalid_mode">Chế độ \"%1$s\" chưa được định nghĩa cho bố cục \"%2$s\".</string>
     <!-- Clipboard History -->
     <string name="clipboard_history">Lịch sử khay nhớ tạm (Clipboard)</string>
     <string name="clipboard_history_enabled">Bật lịch sử khay nhớ tạm</string>
@@ -139,6 +139,14 @@
     <string name="clipboard_disabled">Lịch sử khay nhớ tạm đã bị vô hiệu hóa</string>
     <string name="clipboard_go_to_settings">Di chuyển tới Cài đặt khay nhớ tạm</string>
     <string name="clipboard_characters">%1$d ký tự</string>
+    <string name="abbreviations">Viết tắt</string>
+    <string name="abbreviations_description">Quản lý các cụm từ viết tắt của bạn</string>
+    <string name="add_abbreviation">Thêm từ viết tắt</string>
+    <string name="edit_abbreviation">Sửa từ viết tắt</string>
+    <string name="abbreviation_key">Từ viết tắt (VD: vn)</string>
+    <string name="abbreviation_value">Từ thay thế (VD: việt nam)</string>
+    <string name="delete_abbreviation">Xóa từ viết tắt</string>
+    <string name="no_abbreviations">Chưa có từ viết tắt nào</string>
     <string name="use_private_clipboard">Sử dụng khay nhớ tạm riêng tư</string>
     <string name="use_private_clipboard_description">Sao chép vào khay nhớ tạm riêng của ứng dụng thay vì hệ thống"</string>
 </resources>

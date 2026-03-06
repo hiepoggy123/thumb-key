@@ -59,6 +59,7 @@ class IMEService :
 
     var currentKeyboardDefinition: KeyboardDefinition? = null
     private var clipboardManager: ThumbKeyClipboardManager? = null
+    var isAbbreviationMode: Boolean = false
 
     /**
      * This is called every time the keyboard is brought up.
@@ -211,4 +212,17 @@ class IMEService :
     fun clipboardWasLastCopyDoneViaSystem(): Boolean = clipboardManager?.wasLastCopyOperationDoneViaSystem() ?: true
 
     fun clipboardGetLastClip(): String? = clipboardManager?.getLastClip()
+
+    fun getAbbreviation(abbrev: String): String? {
+        val settingsRepo = (application as ThumbkeyApplication).appSettingsRepository
+        val settings = settingsRepo.appSettings.getValue()
+        val abbreviationsJson = settings?.abbreviations ?: "{}"
+        return try {
+            val map = kotlinx.serialization.json.Json.decodeFromString<Map<String, String>>(abbreviationsJson)
+            map[abbrev]
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to parse abbreviations JSON: ${e.message}")
+            null
+        }
+    }
 }
