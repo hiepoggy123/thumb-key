@@ -222,6 +222,11 @@ sealed class KeyAction {
         val enable: Boolean,
     ) : KeyAction()
 
+    class ToggleAbbreviationMode(
+        val enable: Boolean,
+    ) : KeyAction()
+
+
     class ComposeLastKey(
         val text: String,
     ) : KeyAction()

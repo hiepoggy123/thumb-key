@@ -73,6 +73,7 @@ const val DEFAULT_CLIPBOARD_MAX_SIZE = 20
 const val MIN_CLIPBOARD_MAX_SIZE = 2
 const val MAX_CLIPBOARD_MAX_SIZE = 100
 const val DEFAULT_USE_PRIVATE_CLIPBOARD = 0
+const val DEFAULT_ABBREVIATIONS = "{}"
 
 @Entity
 data class AppSettings(
@@ -330,6 +331,11 @@ data class AppSettings(
         defaultValue = DEFAULT_USE_PRIVATE_CLIPBOARD.toString(),
     )
     val usePrivateClipboard: Int,
+    @ColumnInfo(
+        name = "abbreviations",
+        defaultValue = DEFAULT_ABBREVIATIONS,
+    )
+    val abbreviations: String,
 )
 
 data class LayoutsUpdate(
@@ -478,6 +484,14 @@ data class KeyModificationsUpdate(
     val keyModifications: String,
 )
 
+data class AbbreviationsUpdate(
+    val id: Int,
+    @ColumnInfo(
+        name = "abbreviations",
+    )
+    val abbreviations: String,
+)
+
 data class ClipboardSettingsUpdate(
     val id: Int,
     @ColumnInfo(name = "clipboard_history_enabled")
@@ -518,6 +532,9 @@ interface AppSettingsDao {
 
     @Update(entity = AppSettings::class)
     fun updateKeyModifications(behavior: KeyModificationsUpdate)
+
+    @Update(entity = AppSettings::class)
+    fun updateAbbreviations(abbreviationsUpdate: AbbreviationsUpdate)
 
     @Update(entity = AppSettings::class)
     fun updateClipboardSettings(clipboardSettings: ClipboardSettingsUpdate)
@@ -564,6 +581,11 @@ class AppSettingsRepository(
     }
 
     @WorkerThread
+    fun updateAbbreviations(abbreviationsUpdate: AbbreviationsUpdate) {
+        appSettingsDao.updateAbbreviations(abbreviationsUpdate)
+    }
+
+    @WorkerThread
     fun updateClipboardSettings(clipboardSettings: ClipboardSettingsUpdate) {
         appSettingsDao.updateClipboardSettings(clipboardSettings)
     }
@@ -591,7 +613,7 @@ class AppSettingsRepository(
 }
 
 @Database(
-    version = 25,
+    version = 26,
     entities = [AppSettings::class],
     exportSchema = true,
 )
@@ -638,6 +660,7 @@ abstract class AppDB : RoomDatabase() {
                             MIGRATION_22_23,
                             MIGRATION_23_24,
                             MIGRATION_24_25,
+                            MIGRATION_25_26,
                         )
                         // Necessary because it can't insert data on creation
                         .addCallback(
@@ -694,6 +717,11 @@ class AppSettingsViewModel(
     fun updateKeyModifications(behavior: KeyModificationsUpdate) =
         viewModelScope.launch {
             repository.updateKeyModifications(behavior)
+        }
+
+    fun updateAbbreviations(abbreviationsUpdate: AbbreviationsUpdate) =
+        viewModelScope.launch {
+            repository.updateAbbreviations(abbreviationsUpdate)
         }
 
     fun updateClipboardSettings(clipboardSettings: ClipboardSettingsUpdate) =

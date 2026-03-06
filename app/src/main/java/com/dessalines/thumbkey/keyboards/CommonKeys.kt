@@ -68,6 +68,12 @@ val SWITCH_IME_VOICE_KEYC =
         action = SwitchIMEVoice,
         color = MUTED,
     )
+val TOGGLE_ABBREVIATION_MODE_TRUE_KEYC =
+    KeyC(
+        display = KeyDisplay.IconDisplay(Icons.Outlined.ShortText),
+        action = ToggleAbbreviationMode(true),
+        color = MUTED,
+    )
 val SWITCH_LANGUAGE_KEYC =
     KeyC(
         display = KeyDisplay.IconDisplay(Icons.Outlined.Language),
@@ -109,7 +115,7 @@ fun specialActionKeyItem(center: KeyC): KeyItemC =
         top = GOTO_SETTINGS_KEYC,
         topLeft = TOGGLE_HIDE_LETTERS_KEYC,
         bottom = SWITCH_IME_KEYC,
-        bottomLeft = SWITCH_IME_VOICE_KEYC,
+        bottomLeft = TOGGLE_ABBREVIATION_MODE_TRUE_KEYC,
         left = SWITCH_LANGUAGE_KEYC,
         right = MOVE_KEYBOARD_CYCLE_RIGHT_KEYC,
     )

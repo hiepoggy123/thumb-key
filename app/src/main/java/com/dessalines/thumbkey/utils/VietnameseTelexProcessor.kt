@@ -195,14 +195,39 @@ class VietnameseTelexProcessor : TextProcessor {
         }
         if (vowelsInWord.isEmpty()) return -1
         if (vowelsInWord.size == 1) return vowelsInWord[0]
-        
-        val v1 = getBase(word[vowelsInWord[0]]).lowercaseChar()
-        val v2 = getBase(word[vowelsInWord[1]]).lowercaseChar()
-        
-        if (vowelsInWord[0] > 0 && (word[vowelsInWord[0]-1].lowercaseChar() == 'q' || word[vowelsInWord[0]-1].lowercaseChar() == 'g')) {
+
+        // Handle 'gi' and 'qu'
+        var startIndex = 0
+        if (vowelsInWord.size > 1 && word[vowelsInWord[0]].lowercaseChar() == 'u' && vowelsInWord[0] > 0 && word[vowelsInWord[0] - 1].lowercaseChar() == 'q') {
+            vowelsInWord.removeAt(0)
+            if (vowelsInWord.isEmpty()) return -1
+            if (vowelsInWord.size == 1) return vowelsInWord[0]
+        } else if (vowelsInWord.size > 1 && word[vowelsInWord[0]].lowercaseChar() == 'i' && vowelsInWord[0] > 0 && word[vowelsInWord[0] - 1].lowercaseChar() == 'g') {
+            // 'gi' forms a consonant if followed by other vowels
+            if (word.length > vowelsInWord[0] + 1 && VOWELS.contains(word[vowelsInWord[0] + 1])) {
+                vowelsInWord.removeAt(0)
+                if (vowelsInWord.isEmpty()) return -1
+                if (vowelsInWord.size == 1) return vowelsInWord[0]
+            }
+        }
+
+        if (vowelsInWord.size == 2) {
+            val hasEndingConsonant = !VOWELS.contains(word.last())
+            val v1 = getBase(word[vowelsInWord[0]]).lowercaseChar()
+            val v2 = getBase(word[vowelsInWord[1]]).lowercaseChar()
+
+            if (hasEndingConsonant) {
+                return vowelsInWord[1]
+            } else {
+                if ("$v1$v2" in listOf("oa", "oe", "uy", "ue", "uo")) return vowelsInWord[1]
+                return vowelsInWord[0]
+            }
+        }
+
+        if (vowelsInWord.size == 3) {
             return vowelsInWord[1]
         }
-        if ("$v1$v2" in listOf("oa", "oe", "uy", "ue", "ua")) return vowelsInWord[1]
+
         return vowelsInWord[0]
     }
 }

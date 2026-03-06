@@ -282,6 +282,7 @@ fun getCommonKeyCFromKeyAction(keyActionSerializable: KeyActionSerializable?): K
         KeyActionSerializable.ToggleABCMode -> TOGGLE_NUMERIC_MODE_FALSE_KEYC
         KeyActionSerializable.ToggleEmojiMode -> TOGGLE_EMOJI_MODE_TRUE_KEYC
         KeyActionSerializable.ToggleClipboardMode -> TOGGLE_CLIPBOARD_MODE_TRUE_KEYC
+        KeyActionSerializable.ToggleAbbreviationMode -> TOGGLE_ABBREVIATION_MODE_TRUE_KEYC
         KeyActionSerializable.ToggleCapsLock -> TOGGLE_CAPS_KEYC
         KeyActionSerializable.ToggleShiftModeTrue -> TOGGLE_SHIFT_TRUE_KEYC
         KeyActionSerializable.ToggleShiftModeFalse -> TOGGLE_SHIFT_FALSE_KEYC
@@ -481,6 +482,7 @@ enum class KeyActionSerializable {
     ToggleABCMode,
     ToggleEmojiMode,
     ToggleClipboardMode,
+    ToggleAbbreviationMode,
     ToggleCapsLock,
     ToggleShiftModeFalse,
     ToggleShiftModeTrue,
