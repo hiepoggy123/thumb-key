@@ -27,6 +27,7 @@ import com.dessalines.thumbkey.utils.KeyboardLayout
 import com.dessalines.thumbkey.utils.TAG
 import com.dessalines.thumbkey.utils.ThumbKeyClipboardManager
 import com.dessalines.thumbkey.utils.toBool
+import kotlinx.serialization.json.Json
 
 class IMEService :
     InputMethodService(),
@@ -218,7 +219,7 @@ class IMEService :
         val settings = settingsRepo.appSettings.getValue()
         val abbreviationsJson = settings?.abbreviations ?: "{}"
         return try {
-            val map = kotlinx.serialization.json.Json.decodeFromString<Map<String, String>>(abbreviationsJson)
+            val map: Map<String, String> = Json.decodeFromString(abbreviationsJson)
             map[abbrev]
         } catch (e: Exception) {
             Log.e(TAG, "Failed to parse abbreviations JSON: ${e.message}")

@@ -46,13 +46,13 @@ import kotlinx.serialization.json.Json
 @Composable
 fun AbbreviationSettingsScreen(
     navController: NavController,
-    appSettingsViewModel: AppSettingsViewModel
+    appSettingsViewModel: AppSettingsViewModel,
 ) {
     val settings by appSettingsViewModel.appSettings.observeAsState()
     val abbreviationsJson = settings?.abbreviations ?: "{}"
-    val abbreviations = remember(abbreviationsJson) {
+    val abbreviations: Map<String, String> = remember(abbreviationsJson) {
         try {
-            Json.decodeFromString<Map<String, String>>(abbreviationsJson)
+            Json.decodeFromString(abbreviationsJson)
         } catch (e: Exception) {
             emptyMap()
         }
@@ -71,7 +71,7 @@ fun AbbreviationSettingsScreen(
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
                     }
-                }
+                },
             )
         },
         floatingActionButton = {
@@ -83,15 +83,16 @@ fun AbbreviationSettingsScreen(
             }) {
                 Icon(Icons.Default.Add, contentDescription = null)
             }
-        }
+        },
     ) { padding ->
         if (abbreviations.isEmpty()) {
             Column(
-                modifier = Modifier
-                    .padding(padding)
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                modifier =
+                    Modifier
+                        .padding(padding)
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(stringResource(R.string.no_abbreviations))
             }
@@ -112,7 +113,7 @@ fun AbbreviationSettingsScreen(
                             newMap.remove(key)
                             val update = AbbreviationsUpdate(settings?.id ?: 1, Json.encodeToString(newMap))
                             appSettingsViewModel.updateAbbreviations(update)
-                        }
+                        },
                     )
                 }
             }
@@ -131,14 +132,14 @@ fun AbbreviationSettingsScreen(
                         value = keyInput,
                         onValueChange = { keyInput = it },
                         label = { Text(stringResource(R.string.abbreviation_key)) },
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
                     )
                     Spacer(modifier = Modifier.padding(8.dp))
                     TextField(
                         value = valueInput,
                         onValueChange = { valueInput = it },
                         label = { Text(stringResource(R.string.abbreviation_value)) },
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
                     )
                 }
             },
@@ -162,7 +163,7 @@ fun AbbreviationSettingsScreen(
                 Button(onClick = { showDialog = false }) {
                     Text(stringResource(R.string.cancel))
                 }
-            }
+            },
         )
     }
 }

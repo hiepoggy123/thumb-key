@@ -140,4 +140,13 @@
     <string name="clipboard_characters">%1$d characters</string>
     <string name="use_private_clipboard">Use private clipboard</string>
     <string name="use_private_clipboard_description">Copy into internal clipboard instead of system clipboard"</string>
+
+    <string name="abbreviations">Abbreviations</string>
+    <string name="abbreviations_description">Manage your text abbreviations</string>
+    <string name="add_abbreviation">Add abbreviation</string>
+    <string name="edit_abbreviation">Edit abbreviation</string>
+    <string name="abbreviation_key">Abbreviation (e.g. vn)</string>
+    <string name="abbreviation_value">Expansion (e.g. việt nam)</string>
+    <string name="delete_abbreviation">Delete abbreviation</string>
+    <string name="no_abbreviations">No abbreviations defined</string>
 </resources>
