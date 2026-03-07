@@ -275,20 +275,45 @@ fun swipeDirection(
     y: Float,
     minSwipeLength: Int,
     swipeType: SwipeNWay = SwipeNWay.EIGHT_WAY,
+    durationMs: Long = -1L
 ): SwipeDirection? {
     val xD = x.toDouble()
     val yD = y.toDouble()
 
     val swipeLength = sqrt(xD.pow(2) + yD.pow(2))
+    
+    // Adjust effective minimum swipe length based on velocity
+    // If the swipe is very fast, we lower the required minimum distance.
+    val effectiveMinSwipeLength = if (durationMs > 0 && durationMs < 200) {
+        // e.g., if duration is 50ms, velocity is high, reduce minSwipeLength by up to 50%
+        val velocityFactor = Math.max(0.5, durationMs / 200.0)
+        minSwipeLength * velocityFactor
+    } else {
+        minSwipeLength.toDouble()
+    }
 
-    if (swipeLength > minSwipeLength) {
+    if (swipeLength > effectiveMinSwipeLength) {
         val angleDir = (atan2(xD, yD) / Math.PI * 180)
-        val angle =
+        
+        // Adjust angle slightly if velocity is very high and it's close to a cardinal direction
+        // This helps predict user intent when they swipe fast but slightly diagonally
+        var angle =
             if (angleDir < 0) {
                 360 + angleDir
             } else {
                 angleDir
             }
+            
+        if (durationMs > 0 && durationMs < 150) {
+            // Snap to cardinal directions (0, 90, 180, 270) if reasonably close and swiped fast
+            val cardinalAngles = listOf(0.0, 90.0, 180.0, 270.0, 360.0)
+            for (cardinal in cardinalAngles) {
+                if (abs(angle - cardinal) < 25.0) { // If within 25 degrees of a cardinal direction, snap to it
+                    angle = cardinal
+                    break
+                }
+            }
+        }
 
         when (swipeType) {
             // 0 degrees = down, increasing counter-clockwise

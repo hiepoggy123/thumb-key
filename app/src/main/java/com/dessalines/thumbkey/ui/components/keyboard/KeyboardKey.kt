@@ -169,6 +169,7 @@ fun KeyboardKey(
     var offsetY by remember { mutableFloatStateOf(0f) }
     var hasSlideMoveCursorTriggered by remember { mutableStateOf(false) }
     var timeOfLastAccelerationInput by remember { mutableLongStateOf(0L) }
+    var dragStartTime by remember { mutableLongStateOf(0L) }
     var positions by remember { mutableStateOf(listOf<Offset>()) }
     var maxOffset by remember { mutableStateOf(Offset(0f, 0f)) }
 
@@ -294,6 +295,7 @@ fun KeyboardKey(
                 detectDragGestures(
                     onDragStart = {
                         isDragged.value = true
+                        dragStartTime = System.currentTimeMillis()
                     },
                     onDrag = { change, dragAmount ->
                         change.consume()
@@ -482,6 +484,8 @@ fun KeyboardKey(
                             ((key.slideType == SlideType.MOVE_CURSOR) && !hasSlideMoveCursorTriggered)
                         ) {
                             hasSlideMoveCursorTriggered = false
+                            
+                            val durationMs = if (dragStartTime > 0) System.currentTimeMillis() - dragStartTime else -1L
 
                             // offset where we recognize if the swipe is back to the initial key
                             // this offset needs to take the minSwipeLength into consideration. Otherwise
@@ -538,6 +542,7 @@ fun KeyboardKey(
                                                         maxOffset.y,
                                                         minSwipeLength,
                                                         if (ghostKey == null) key.swipeType else SwipeNWay.EIGHT_WAY,
+                                                        durationMs
                                                     )
                                                 key.getSwipe(swipeDirection)?.swipeReturnAction
                                                     ?: oppositeCaseKey?.getSwipe(swipeDirection)?.action
@@ -553,6 +558,7 @@ fun KeyboardKey(
                                                 offsetY,
                                                 minSwipeLength,
                                                 if (ghostKey == null) key.swipeType else SwipeNWay.EIGHT_WAY,
+                                                durationMs
                                             )
                                         key.getSwipe(swipeDirection)?.action ?: (
                                             ghostKey?.getSwipe(swipeDirection)?.action

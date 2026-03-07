@@ -139,6 +139,10 @@ class VietnameseTelexProcessor : TextProcessor {
             if (pLast.lowercaseChar() == 'â' || pLast.lowercaseChar() == 'ă') return replaceLast('a') + lastChar
             return replaceLast('ă')
         }
+        if (lc == 'w' && pLast.lowercaseChar() == 'w') {
+            val isUpLast = lastChar.isUpperCase()
+            return prefix.dropLast(1) + (if (isUpLast) 'Ư' else 'ư')
+        }
         if (lc == 'e' && pBase == 'e') {
             if (pLast.lowercaseChar() == 'ê') return replaceLast('e') + lastChar
             return replaceLast('ê')

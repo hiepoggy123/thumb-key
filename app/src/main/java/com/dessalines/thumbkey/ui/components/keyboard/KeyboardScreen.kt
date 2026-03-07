@@ -89,10 +89,85 @@ import com.dessalines.thumbkey.utils.getKeyboardMode
 import com.dessalines.thumbkey.utils.getModifiedKeyboardDefinition
 import com.dessalines.thumbkey.utils.keyboardPositionToAlignment
 import com.dessalines.thumbkey.utils.toBool
+import androidx.compose.runtime.Stable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.time.TimeMark
+
+@Stable
+data class KeyboardDerivedSettings(
+    val positionPadding: Int,
+    val pushupSizeDp: Dp,
+    val ignoreBottomPadding: Boolean,
+    val autoCapitalize: Boolean,
+    val spacebarMultiTaps: Boolean,
+    val slideEnabled: Boolean,
+    val slideCursorMovementMode: Int,
+    val slideSpacebarDeadzoneEnabled: Boolean,
+    val slideBackspaceDeadzoneEnabled: Boolean,
+    val keyBorderWidth: Int,
+    val vibrateOnTap: Boolean,
+    val vibrateOnSlide: Boolean,
+    val soundOnTap: Boolean,
+    val hideLetters: Boolean,
+    val hideSymbols: Boolean,
+    val backdropEnabled: Boolean,
+    val autoSizeKeys: Boolean,
+    val nonSquareKeys: Boolean,
+    val keyPadding: Int,
+    val keyWidth: Int,
+    val keyHeight: Int,
+    val keyRadius: Float,
+    val dragReturnEnabled: Boolean,
+    val circularDragEnabled: Boolean,
+    val clockwiseDragAction: CircularDragAction,
+    val counterclockwiseDragAction: CircularDragAction,
+    val ghostKeysEnabled: Boolean,
+    val animationSpeed: Int,
+    val animationHelperSpeed: Int,
+    val minSwipeLength: Int,
+    val slideSensitivity: Int
+)
+
+@Composable
+fun rememberKeyboardDerivedSettings(settings: AppSettings?): KeyboardDerivedSettings {
+    return remember(settings) {
+        KeyboardDerivedSettings(
+            positionPadding = settings?.positionPadding ?: DEFAULT_POSITION_PADDING,
+            pushupSizeDp = (settings?.pushupSize ?: DEFAULT_PUSHUP_SIZE).dp,
+            ignoreBottomPadding = (settings?.ignoreBottomPadding ?: DEFAULT_IGNORE_BOTTOM_PADDING).toBool(),
+            autoCapitalize = (settings?.autoCapitalize ?: DEFAULT_AUTO_CAPITALIZE).toBool(),
+            spacebarMultiTaps = (settings?.spacebarMultiTaps ?: DEFAULT_SPACEBAR_MULTITAPS).toBool(),
+            slideEnabled = (settings?.slideEnabled ?: DEFAULT_SLIDE_ENABLED).toBool(),
+            slideCursorMovementMode = settings?.slideCursorMovementMode ?: DEFAULT_SLIDE_CURSOR_MOVEMENT_MODE,
+            slideSpacebarDeadzoneEnabled = (settings?.slideSpacebarDeadzoneEnabled ?: DEFAULT_SLIDE_SPACEBAR_DEADZONE_ENABLED).toBool(),
+            slideBackspaceDeadzoneEnabled = (settings?.slideBackspaceDeadzoneEnabled ?: DEFAULT_SLIDE_BACKSPACE_DEADZONE_ENABLED).toBool(),
+            keyBorderWidth = settings?.keyBorderWidth ?: DEFAULT_KEY_BORDER_WIDTH,
+            vibrateOnTap = (settings?.vibrateOnTap ?: DEFAULT_VIBRATE_ON_TAP).toBool(),
+            vibrateOnSlide = (settings?.vibrateOnSlide ?: DEFAULT_VIBRATE_ON_SLIDE).toBool(),
+            soundOnTap = (settings?.soundOnTap ?: DEFAULT_SOUND_ON_TAP).toBool(),
+            hideLetters = (settings?.hideLetters ?: DEFAULT_HIDE_LETTERS).toBool(),
+            hideSymbols = (settings?.hideSymbols ?: DEFAULT_HIDE_SYMBOLS).toBool(),
+            backdropEnabled = (settings?.backdropEnabled ?: DEFAULT_BACKDROP_ENABLED).toBool(),
+            autoSizeKeys = (settings?.autoSizeKeys ?: DEFAULT_AUTO_SIZE_KEYS).toBool(),
+            nonSquareKeys = (settings?.nonSquareKeys ?: DEFAULT_NON_SQUARE_KEYS).toBool(),
+            keyPadding = settings?.keyPadding ?: DEFAULT_KEY_PADDING,
+            keyWidth = settings?.keyWidth ?: DEFAULT_KEY_WIDTH,
+            keyHeight = settings?.keyHeight ?: DEFAULT_KEY_HEIGHT,
+            keyRadius = settings?.keyRadius ?: DEFAULT_KEY_RADIUS,
+            dragReturnEnabled = (settings?.dragReturnEnabled ?: DEFAULT_DRAG_RETURN_ENABLED).toBool(),
+            circularDragEnabled = (settings?.circularDragEnabled ?: DEFAULT_CIRCULAR_DRAG_ENABLED).toBool(),
+            clockwiseDragAction = CircularDragAction.entries[settings?.clockwiseDragAction ?: DEFAULT_CLOCKWISE_DRAG_ACTION],
+            counterclockwiseDragAction = CircularDragAction.entries[settings?.counterclockwiseDragAction ?: DEFAULT_COUNTERCLOCKWISE_DRAG_ACTION],
+            ghostKeysEnabled = (settings?.ghostKeysEnabled ?: DEFAULT_GHOST_KEYS_ENABLED).toBool(),
+            animationSpeed = settings?.animationSpeed ?: DEFAULT_ANIMATION_SPEED,
+            animationHelperSpeed = settings?.animationHelperSpeed ?: DEFAULT_ANIMATION_HELPER_SPEED,
+            minSwipeLength = settings?.minSwipeLength ?: DEFAULT_MIN_SWIPE_LENGTH,
+            slideSensitivity = settings?.slideSensitivity ?: DEFAULT_SLIDE_SENSITIVITY
+        )
+    }
+}
 
 @Composable
 fun KeyboardScreen(
@@ -188,50 +263,50 @@ fun KeyboardScreen(
                 ?: DEFAULT_POSITION,
         ]
 
-    val positionPadding = settings?.positionPadding ?: DEFAULT_POSITION_PADDING
+    val derived = rememberKeyboardDerivedSettings(settings)
 
-    val pushupSizeDp = (settings?.pushupSize ?: DEFAULT_PUSHUP_SIZE).dp
-    val ignoreBottomPadding = (settings?.ignoreBottomPadding ?: DEFAULT_IGNORE_BOTTOM_PADDING).toBool()
-
-    val autoCapitalize = (settings?.autoCapitalize ?: DEFAULT_AUTO_CAPITALIZE).toBool()
-    val spacebarMultiTaps = (settings?.spacebarMultiTaps ?: DEFAULT_SPACEBAR_MULTITAPS).toBool()
-    val slideEnabled = (settings?.slideEnabled ?: DEFAULT_SLIDE_ENABLED).toBool()
-    val slideCursorMovementMode = (settings?.slideCursorMovementMode ?: DEFAULT_SLIDE_CURSOR_MOVEMENT_MODE)
-    val slideSpacebarDeadzoneEnabled = (settings?.slideSpacebarDeadzoneEnabled ?: DEFAULT_SLIDE_SPACEBAR_DEADZONE_ENABLED).toBool()
-    val slideBackspaceDeadzoneEnabled = (settings?.slideBackspaceDeadzoneEnabled ?: DEFAULT_SLIDE_BACKSPACE_DEADZONE_ENABLED).toBool()
-    val keyBorderWidth = (settings?.keyBorderWidth ?: DEFAULT_KEY_BORDER_WIDTH)
-    val vibrateOnTap = (settings?.vibrateOnTap ?: DEFAULT_VIBRATE_ON_TAP).toBool()
-    val vibrateOnSlide = (settings?.vibrateOnSlide ?: DEFAULT_VIBRATE_ON_SLIDE).toBool()
-    val soundOnTap = (settings?.soundOnTap ?: DEFAULT_SOUND_ON_TAP).toBool()
-    val hideLetters = (settings?.hideLetters ?: DEFAULT_HIDE_LETTERS).toBool()
-    val hideSymbols = (settings?.hideSymbols ?: DEFAULT_HIDE_SYMBOLS).toBool()
-    val backdropEnabled = (settings?.backdropEnabled ?: DEFAULT_BACKDROP_ENABLED).toBool()
+    val positionPadding = derived.positionPadding
+    val pushupSizeDp = derived.pushupSizeDp
+    val ignoreBottomPadding = derived.ignoreBottomPadding
+    val autoCapitalize = derived.autoCapitalize
+    val spacebarMultiTaps = derived.spacebarMultiTaps
+    val slideEnabled = derived.slideEnabled
+    val slideCursorMovementMode = derived.slideCursorMovementMode
+    val slideSpacebarDeadzoneEnabled = derived.slideSpacebarDeadzoneEnabled
+    val slideBackspaceDeadzoneEnabled = derived.slideBackspaceDeadzoneEnabled
+    val keyBorderWidth = derived.keyBorderWidth
+    val vibrateOnTap = derived.vibrateOnTap
+    val vibrateOnSlide = derived.vibrateOnSlide
+    val soundOnTap = derived.soundOnTap
+    val hideLetters = derived.hideLetters
+    val hideSymbols = derived.hideSymbols
+    val backdropEnabled = derived.backdropEnabled
     val backdropColor = MaterialTheme.colorScheme.background
     val backdropPadding = 6.dp
-    val keyPadding = settings?.keyPadding ?: DEFAULT_KEY_PADDING
-    val autoSizeKeys = (settings?.autoSizeKeys ?: DEFAULT_AUTO_SIZE_KEYS).toBool()
-    val nonSquareKeys = (settings?.nonSquareKeys ?: DEFAULT_NON_SQUARE_KEYS).toBool()
+    val keyPadding = derived.keyPadding
+    val autoSizeKeys = derived.autoSizeKeys
+    val nonSquareKeys = derived.nonSquareKeys
+    
     val legendWidth =
         if (autoSizeKeys) {
             val keyboardLayout = settings?.keyboardLayout ?: DEFAULT_KEYBOARD_LAYOUT
             getAutoKeyWidth(keyboardLayout, keyPadding, position, ctx)
         } else {
-            settings?.keyWidth ?: DEFAULT_KEY_WIDTH
+            derived.keyWidth
         }
     val legendHeight =
         if (!nonSquareKeys) {
             legendWidth
         } else {
-            settings?.keyHeight ?: DEFAULT_KEY_HEIGHT
+            derived.keyHeight
         }
-    val keyRadius = settings?.keyRadius ?: DEFAULT_KEY_RADIUS
-    val dragReturnEnabled = (settings?.dragReturnEnabled ?: DEFAULT_DRAG_RETURN_ENABLED).toBool()
-    val circularDragEnabled = (settings?.circularDragEnabled ?: DEFAULT_CIRCULAR_DRAG_ENABLED).toBool()
-    val clockwiseDragAction = CircularDragAction.entries[settings?.clockwiseDragAction ?: DEFAULT_CLOCKWISE_DRAG_ACTION]
-    val counterclockwiseDragAction =
-        CircularDragAction.entries[settings?.counterclockwiseDragAction ?: DEFAULT_COUNTERCLOCKWISE_DRAG_ACTION]
-    val ghostKeysEnabled = (settings?.ghostKeysEnabled ?: DEFAULT_GHOST_KEYS_ENABLED).toBool()
-
+    val keyRadius = derived.keyRadius
+    val dragReturnEnabled = derived.dragReturnEnabled
+    val circularDragEnabled = derived.circularDragEnabled
+    val clockwiseDragAction = derived.clockwiseDragAction
+    val counterclockwiseDragAction = derived.counterclockwiseDragAction
+    val ghostKeysEnabled = derived.ghostKeysEnabled
+    
     val keyBorderWidthFloat = keyBorderWidth / 10.0f
     val keyBorderColour = MaterialTheme.colorScheme.outline
     val keyHeight = legendHeight.toFloat()
@@ -353,14 +428,10 @@ fun KeyboardScreen(
                                 hideLetters = hideLetters,
                                 hideSymbols = hideSymbols,
                                 capsLock = capsLock,
-                                animationSpeed =
-                                    settings?.animationSpeed
-                                        ?: DEFAULT_ANIMATION_SPEED,
-                                animationHelperSpeed =
-                                    settings?.animationHelperSpeed
-                                        ?: DEFAULT_ANIMATION_HELPER_SPEED,
-                                minSwipeLength = settings?.minSwipeLength ?: DEFAULT_MIN_SWIPE_LENGTH,
-                                slideSensitivity = settings?.slideSensitivity ?: DEFAULT_SLIDE_SENSITIVITY,
+                                animationSpeed = derived.animationSpeed,
+                                animationHelperSpeed = derived.animationHelperSpeed,
+                                minSwipeLength = derived.minSwipeLength,
+                                slideSensitivity = derived.slideSensitivity,
                                 slideEnabled = slideEnabled,
                                 slideCursorMovementMode = slideCursorMovementMode,
                                 slideSpacebarDeadzoneEnabled = slideSpacebarDeadzoneEnabled,
@@ -641,18 +712,10 @@ fun KeyboardScreen(
                                         hideLetters = hideLetters,
                                         hideSymbols = hideSymbols,
                                         capsLock = capsLock,
-                                        animationSpeed =
-                                            settings?.animationSpeed
-                                                ?: DEFAULT_ANIMATION_SPEED,
-                                        animationHelperSpeed =
-                                            settings?.animationHelperSpeed
-                                                ?: DEFAULT_ANIMATION_HELPER_SPEED,
-                                        minSwipeLength =
-                                            settings?.minSwipeLength
-                                                ?: DEFAULT_MIN_SWIPE_LENGTH,
-                                        slideSensitivity =
-                                            settings?.slideSensitivity
-                                                ?: DEFAULT_SLIDE_SENSITIVITY,
+                                        animationSpeed = derived.animationSpeed,
+                                        animationHelperSpeed = derived.animationHelperSpeed,
+                                        minSwipeLength = derived.minSwipeLength,
+                                        slideSensitivity = derived.slideSensitivity,
                                         slideEnabled = slideEnabled,
                                         slideCursorMovementMode = slideCursorMovementMode,
                                         slideSpacebarDeadzoneEnabled = slideSpacebarDeadzoneEnabled,
