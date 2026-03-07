@@ -52,6 +52,7 @@ val KB_VN_THUMBKEY_MAIN =
                 KeyItemC(
                     center = KeyC("a", size = LARGE),
                     left = KeyC("l"),
+                    right = TOGGLE_CLIPBOARD_MODE_TRUE_KEYC.copy(size = SMALL, color = MUTED),
                     top =
                         KeyC(
                             display = KeyDisplay.IconDisplay(Icons.Outlined.ArrowDropUp),
@@ -64,7 +65,6 @@ val KB_VN_THUMBKEY_MAIN =
                             ToggleShiftMode(false),
                             swipeReturnAction = ToggleCurrentWordCapitalization(false),
                         ),
-                    longPress = ToggleClipboardMode(true),
                 ),
                 NUMERIC_KEY_ITEM,
             ),
@@ -138,6 +138,7 @@ val KB_VN_THUMBKEY_SHIFTED =
                 KeyItemC(
                     center = KeyC("A", size = LARGE),
                     left = KeyC("L"),
+                    right = TOGGLE_CLIPBOARD_MODE_TRUE_KEYC.copy(size = SMALL, color = MUTED),
                     bottom =
                         KeyC(
                             display = KeyDisplay.IconDisplay(Icons.Outlined.ArrowDropDown),
