@@ -13,7 +13,7 @@ class VietnameseTelexProcessor : TextProcessor {
         val inputChar = input[0]
 
         val extracted = ic.getTextBeforeCursor(20, 0)?.toString() ?: ""
-        val wordRegex = Regex("[a-zA-ZÀ-ỹ]+\$")
+        val wordRegex = Regex("[a-zA-ZÀ-ỹăâêôơưđĂÂÊÔƠƯĐ]+\$")
         val match = wordRegex.find(extracted)
         
         if (match != null) {
@@ -39,7 +39,7 @@ class VietnameseTelexProcessor : TextProcessor {
                 val previousState = undoStack.pop()
                 val ic = ime.currentInputConnection
                 val extracted = ic.getTextBeforeCursor(20, 0)?.toString() ?: ""
-                val match = Regex("[a-zA-ZÀ-ỹ]+\$").find(extracted)
+                val match = Regex("[a-zA-ZÀ-ỹăâêôơưđĂÂÊÔƠƯĐ]+\$").find(extracted)
                 if (match != null) {
                     ic.deleteSurroundingText(match.value.length, 0)
                     ic.commitText(previousState, 1)
@@ -225,6 +225,14 @@ class VietnameseTelexProcessor : TextProcessor {
         }
 
         if (vowelsInWord.size == 3) {
+            val v1 = getBase(word[vowelsInWord[0]]).lowercaseChar()
+            val v2 = getBase(word[vowelsInWord[1]]).lowercaseChar()
+            val v3 = getBase(word[vowelsInWord[2]]).lowercaseChar()
+            
+            if ("$v1$v2$v3" in listOf("uye", "uya")) {
+                return vowelsInWord[1]
+            }
+
             return vowelsInWord[1]
         }
 
