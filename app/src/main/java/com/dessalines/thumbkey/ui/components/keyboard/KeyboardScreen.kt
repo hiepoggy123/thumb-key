@@ -155,7 +155,7 @@ fun rememberKeyboardDerivedSettings(settings: AppSettings?): KeyboardDerivedSett
             keyPadding = settings?.keyPadding ?: DEFAULT_KEY_PADDING,
             keyWidth = settings?.keyWidth ?: DEFAULT_KEY_WIDTH,
             keyHeight = settings?.keyHeight ?: DEFAULT_KEY_HEIGHT,
-            keyRadius = settings?.keyRadius ?: DEFAULT_KEY_RADIUS,
+            keyRadius = (settings?.keyRadius ?: DEFAULT_KEY_RADIUS).toFloat(),
             dragReturnEnabled = (settings?.dragReturnEnabled ?: DEFAULT_DRAG_RETURN_ENABLED).toBool(),
             circularDragEnabled = (settings?.circularDragEnabled ?: DEFAULT_CIRCULAR_DRAG_ENABLED).toBool(),
             clockwiseDragAction = CircularDragAction.entries[settings?.clockwiseDragAction ?: DEFAULT_CLOCKWISE_DRAG_ACTION],
