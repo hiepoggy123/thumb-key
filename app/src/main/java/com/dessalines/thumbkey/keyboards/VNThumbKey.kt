@@ -58,7 +58,7 @@ val KB_VN_THUMBKEY_MAIN =
                             action = ToggleShiftMode(true),
                             swipeReturnAction = ToggleCurrentWordCapitalization(true),
                             color = MUTED,
-                        ),
+                        ).copy(longPress = ToggleClipboardMode(true)),
                     bottom =
                         KeyC(
                             ToggleShiftMode(false),
